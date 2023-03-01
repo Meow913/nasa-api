@@ -51,6 +51,9 @@
 </head>
 <body>
 <!-- <audio src="morning.mp3" autoplay loop></audio> -->
+<?php $LINK = $_SERVER['REQUEST_URI'];
+
+?>
 <div class="main-page-div">
     <div class="header-main-div">
         <div class="left-subheader-div">
@@ -61,9 +64,10 @@
             <div class="menu">
                 <nav>
                     <ul>
-                        <li><a href="#">Home</a></li>
+                        <li><a class="link-home">Home</a></li>
                         <li><a class="link-APOD">Astronomy Picture of the Day</a></li>
                         <li><a class="video-link">Videos</a></li>
+                        <li><a class="video-link"><?php echo $LINK;?></a></li>
                     </ul>
                 </nav>
             </div>

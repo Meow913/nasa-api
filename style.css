@@ -170,26 +170,113 @@ button:hover {
 /* ITEMS */
 .search-result {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    /*display: flex;
+    flex-wrap: wrap;*/
+    display: grid;
+
+}
+@media all and (min-width: 1550px){
+    .search-result {
+        grid-template-columns: auto auto auto auto auto;
+    }
+    .one-item-main {
+        width: 300px;
+    }
 }
 
+
+@media all and (max-width: 1550px){
+    .search-result {
+        grid-template-columns: auto auto auto auto;
+    }
+    .one-item-main {
+        width: 300px;
+    }
+    .pic-one-item{
+        width: 300px;
+    }
+}
+
+@media all and (max-width: 1250px){
+    .search-result {
+        grid-template-columns: auto auto auto;
+    }
+    .one-item-main {
+        width: 300px;
+    }
+    .pic-one-item{
+        width: 300px;
+    }
+}
+
+@media all and (max-width: 950px){
+    .search-result {
+        grid-template-columns: auto auto;
+    }
+    .one-item-main {
+        width: 300px;
+    }
+    .pic-one-item{
+        width: 300px;
+    }
+}
+@media all and (max-width: 650px){
+    .search-result {
+        grid-template-columns: auto;
+    }
+    .one-item-main {
+        width: 450px;
+    }
+    .pic-one-item{
+        width: 450px;
+    }
+}
+@media all and (max-width: 450px){
+    .search-result {
+        grid-template-columns: auto;
+    }
+    .one-item-main {
+        width: 350px;
+    }
+    .pic-one-item{
+        width: 350px;
+    }
+}
+@media all and (max-width: 350px){
+    .search-result {
+        grid-template-columns: auto;
+    }
+    .one-item-main {
+        width: 300px;
+    }
+    .pic-one-item{
+        width: 300px;
+    }
+}
+
+
 .one-item-main {
-    max-width: 300px;
-    flex: 40%;
+    text-align: center;
+    height: 400px;
     margin: 0 auto;
-    padding-top: 25px;
+    margin-top: 25px;
+    background-color: black;
+    border-radius: 15px;
+}
+
+.pic-one-item {
+    border-radius: 15px;
+    height: 200px;
+    overflow: hidden;
 }
 .pic-one-item img {
-    max-width: 300px;
-    min-width: 100%;
-    border-radius: 15px;
+    width: 100%;
+    border-radius: 10px;
+    background-size: cover;
 }
 .title-one-item {
     font-size: 22px;
-    background-color: black;
-    margin-top: -25px;
-    padding-top: 20px;
+    margin-top: 25px;
     color: white;
     padding-left: 5px;
     padding-right: 5px;

@@ -60,14 +60,14 @@ document.querySelector('.bottom-search-div').addEventListener('touchstart', func
 
 let linkHome = document.querySelector('.link-home');
 linkHome.addEventListener('click', () => {
-    console.log('home');
+    //console.log('home');
     document.getElementsByName('search-input')[0].placeholder='search for images';
     document.getElementsByName('search-input')[0].value='';
     document.getElementsByName('search-input')[0].dataset.typeOfSearch = 'image';
 })
 let linkVideo = document.querySelector('.video-link');
 linkVideo.addEventListener('click', () => {
-    console.log('VIDEO');
+    //console.log('VIDEO');
     document.getElementsByName('search-input')[0].placeholder='search for videos';
     document.getElementsByName('search-input')[0].value='';
     document.getElementsByName('search-input')[0].dataset.typeOfSearch = 'video';
@@ -85,14 +85,18 @@ function createMenuLinksFunc()
 
     let linkHome = document.querySelector('.link-home');
     linkHome.addEventListener('click', () => {
-        console.log('home');
+        if(document.querySelector('.search-result')){
+            document.querySelector('.search-result').remove();
+        }
         document.getElementsByName('search-input')[0].placeholder='search for images';
         document.getElementsByName('search-input')[0].value='';
         document.getElementsByName('search-input')[0].dataset.typeOfSearch = 'image';
     })
     let linkVideo = document.querySelector('.video-link');
     linkVideo.addEventListener('click', () => {
-        console.log('VIDEO');
+        if(document.querySelector('.search-result')){
+            document.querySelector('.search-result').remove();
+        }
         document.getElementsByName('search-input')[0].placeholder='search for videos';
         document.getElementsByName('search-input')[0].value='';
         document.getElementsByName('search-input')[0].dataset.typeOfSearch = 'video';
@@ -118,10 +122,14 @@ function createBurgerBtnFunc()
 
 function createSearchResultFunc()
 {
+    if(document.querySelector('.search-result')){
+        document.querySelector('.search-result').remove();
+    }
     let divResult = document.createElement('div');
     divResult.className = 'search-result';
     document.querySelector('.main-page-div').append(divResult);
 }
+
 function createAPODFunc()
 {
     let divAPOD = document.createElement('div');
@@ -149,15 +157,7 @@ function runLinkAPOD()
             }
         }, 300);
     });
-
 }
-
-
-
-
-
-
-
 
 function buttonClickEffect() {
     let searchBtn = document.getElementById('search-id');
@@ -227,26 +227,16 @@ function connectApiPicsVideo()
     }
 
     function ShowPics() {
-
                 let resultFromApi = fetchPics();
                 GenerateHtmlForResult(resultFromApi);
-
                 function GenerateHtmlForResult(resultFromApi) {
                     resultFromApi.then((result) => {
-                            //console.log(result);
                         let videoType = document.getElementsByName('search-input')[0].dataset.typeOfSearch;
                             for (let index = 1; index < result.collection.items.length; index++) {
                                 let mediatype = result.collection.items[index].data[0].media_type;
+                                console.log(mediatype);
                                 let title = result.collection.items[index].data[0].title;
-                                if (mediatype === 'image' && videoType === 'video') {
-                                //console.log(result.collection.items[index].links[0].href);
-
-
-
-                                //console.log(mediatype);
-                                //console.log(picture);
-
-
+                                if (videoType === 'video' && mediatype === 'video') {
                                     async function fetchVideo() {
                                         let pathVideoJson = result.collection.items[index].href;
                                         const response = await fetch(pathVideoJson);
@@ -254,42 +244,36 @@ function connectApiPicsVideo()
                                         return data;
                                     }
                                     function ShowVideo() {
-
                                         let resultFromApi = fetchVideo();
                                         GenerateHtmlForResult(resultFromApi);
-
                                         function GenerateHtmlForResult(resultFromApi) {
                                             resultFromApi.then((resultVideo) => {
-
                                     let pathCurrentVideo = resultVideo[2];
                                                 //console.log(pathCurrentVideo);
                                     let oneItemDiv = document.createElement('a');
                                     oneItemDiv.className = 'one-item-main';
                                     oneItemDiv.innerHTML = '<div class="pic-one-item"><video class="video-one-item" controls><source src="'+pathCurrentVideo+'" type="video/webm"></video></div>' +
                                         '<div class="title-one-item"><h3>' + title + '</h3></div>';
-                                    // '<div class="description-one-item"><p>' + description + '</p></div>';
                                     document.querySelector('.search-result').append(oneItemDiv);
                                             })}
+                                    }
+                                    ShowVideo()
                                 }
-                                    ShowVideo()}
-                                else {
+                                if (videoType === 'image' && mediatype === 'image') {
                                     let picture = result.collection.items[index].links[0].href;
-                                    //console.log('img');
-                                let description = result.collection.items[index].data[0].description;
+                                    let description = result.collection.items[index].data[0].description;
 
-                                let oneItemDiv = document.createElement('a');
-                                oneItemDiv.className = 'one-item-main';
-                                oneItemDiv.innerHTML = '<div class="pic-one-item"><img src="' + picture + '" alt="' + title + '" style="max-height: 700px; border-radius: 20px"></div>' +
-                                    '<div class="title-one-item"><h3>' + title + '</h3></div>';
-                                   // '<div class="description-one-item"><p>' + description + '</p></div>';
-                                document.querySelector('.search-result').append(oneItemDiv);
-                            }}
-
+                                    let oneItemDiv = document.createElement('a');
+                                    oneItemDiv.className = 'one-item-main';
+                                    oneItemDiv.innerHTML = '<div class="pic-one-item" style="background-image: url('+picture+'); background-position: center; background-size: cover;"></div>' +
+                                                            '<div class="title-one-item"><h3>' + title + '</h3></div>'
+                                    document.querySelector('.search-result').append(oneItemDiv);
+                                }
+                            }
                         }
                     )
                 }
             }
-
             ShowPics();
 }
 
